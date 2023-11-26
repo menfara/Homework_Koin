@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "792361158248",
+    "project_id": "homeworks-65386",
+    "storage_bucket": "homeworks-65386.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792361158248:android:11d0edc1e0b10d8a631ddd",
+        "android_client_info": {
+          "package_name": "farkhat.myrzabekov.homework_cloudmessaging"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXXzHBZqIe4AynJeVv7ym7NTUG3j32ZkQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
