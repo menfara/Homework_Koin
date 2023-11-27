@@ -8,11 +8,8 @@ import farkhat.myrzabekov.homework_cloudmessaging.domain.usecase.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import dagger.hilt.android.lifecycle.HiltViewModel
 
-@HiltViewModel
-class NoteViewModel @Inject constructor(
+class NoteViewModel(
     private val getNotesUseCase: GetNotesUseCase,
     private val getNoteByIdUseCase: GetNoteByIdUseCase,
     private val addNoteUseCase: AddNoteUseCase,
@@ -34,12 +31,6 @@ class NoteViewModel @Inject constructor(
                 _notes.value = listOfNotes
             }
         }
-    }
-
-
-    fun getNoteById(id: Int) {
-        // Assuming we want to expose a single note as a StateFlow
-        // This is a placeholder for the actual StateFlow you would use
     }
 
     fun addNote(note: Note) {

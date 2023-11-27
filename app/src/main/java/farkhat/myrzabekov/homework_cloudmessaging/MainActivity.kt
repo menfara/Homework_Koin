@@ -2,19 +2,17 @@ package farkhat.myrzabekov.homework_cloudmessaging
 
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.asLiveData
 import farkhat.myrzabekov.homework_cloudmessaging.databinding.ActivityMainBinding
-import dagger.hilt.android.AndroidEntryPoint
 import farkhat.myrzabekov.homework_cloudmessaging.domain.model.Note
 import farkhat.myrzabekov.homework_cloudmessaging.presentation.NoteViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: NoteViewModel by viewModels()
+    private val viewModel: NoteViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -2,11 +2,8 @@ package farkhat.myrzabekov.homework_cloudmessaging.di
 
 import android.content.Context
 import androidx.room.Room
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
+import org.koin.dsl.module
+import org.koin.androidx.viewmodel.dsl.viewModel
 import farkhat.myrzabekov.homework_cloudmessaging.data.local.NoteDao
 import farkhat.myrzabekov.homework_cloudmessaging.data.local.NoteDatabase
 import farkhat.myrzabekov.homework_cloudmessaging.data.repository.NoteRepositoryImpl
@@ -16,59 +13,32 @@ import farkhat.myrzabekov.homework_cloudmessaging.domain.usecase.DeleteNoteUseCa
 import farkhat.myrzabekov.homework_cloudmessaging.domain.usecase.GetNoteByIdUseCase
 import farkhat.myrzabekov.homework_cloudmessaging.domain.usecase.GetNotesUseCase
 import farkhat.myrzabekov.homework_cloudmessaging.domain.usecase.UpdateNoteUseCase
-import javax.inject.Singleton
+import farkhat.myrzabekov.homework_cloudmessaging.presentation.NoteViewModel
 
-@Module
-@InstallIn(SingletonComponent::class)
-object AppModule {
+val appModule = module {
 
+    single<NoteDatabase> { Room.databaseBuilder(get(), NoteDatabase::class.java, "notes.db").build() }
 
-    @Singleton
-    @Provides
-    fun provideNoteRepository(noteDao: NoteDao): NoteRepository {
-        return NoteRepositoryImpl(noteDao)
-    }
+    single<NoteDao> { get<NoteDatabase>().noteDao() }
 
-    @Singleton
-    @Provides
-    fun provideNoteDatabase(@ApplicationContext appContext: Context): NoteDatabase {
-        return NoteDatabase.create(appContext)
-    }
+    single<NoteRepository> { NoteRepositoryImpl(get()) }
 
-    @Provides
-    fun provideNoteDao(noteDatabase: NoteDatabase): NoteDao {
-        return noteDatabase.noteDao()
-    }
-
-    @Singleton
-    @Provides
-    fun provideGetNotesUseCase(noteRepository: NoteRepository): GetNotesUseCase {
-        return GetNotesUseCase(noteRepository)
-    }
-
-    @Singleton
-    @Provides
-    fun provideGetNoteByIdUseCase(noteRepository: NoteRepository): GetNoteByIdUseCase {
-        return GetNoteByIdUseCase(noteRepository)
-    }
-
-    @Singleton
-    @Provides
-    fun provideAddNoteUseCase(noteRepository: NoteRepository): AddNoteUseCase {
-        return AddNoteUseCase(noteRepository)
-    }
-
-    @Singleton
-    @Provides
-    fun provideUpdateNoteUseCase(noteRepository: NoteRepository): UpdateNoteUseCase {
-        return UpdateNoteUseCase(noteRepository)
-    }
-
-    @Singleton
-    @Provides
-    fun provideDeleteNoteUseCase(noteRepository: NoteRepository): DeleteNoteUseCase {
-        return DeleteNoteUseCase(noteRepository)
-    }
-
-
+    factory { GetNotesUseCase(get()) }
+    factory { GetNoteByIdUseCase(get()) }
+    factory { AddNoteUseCase(get()) }
+    factory { UpdateNoteUseCase(get()) }
+    factory { DeleteNoteUseCase(get()) }
 }
+
+val viewModelModule = module {
+    viewModel {
+        NoteViewModel(
+            getNotesUseCase = get(),
+            getNoteByIdUseCase = get(),
+            addNoteUseCase = get(),
+            updateNoteUseCase = get(),
+            deleteNoteUseCase = get()
+        )
+    }
+}
+

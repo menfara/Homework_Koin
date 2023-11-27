@@ -1,7 +1,17 @@
 package farkhat.myrzabekov.homework_cloudmessaging
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+import farkhat.myrzabekov.homework_cloudmessaging.di.appModule
+import farkhat.myrzabekov.homework_cloudmessaging.di.viewModelModule
 
-@HiltAndroidApp
-class NotesApp: Application() {}
+class NotesApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        startKoin {
+            androidContext(this@NotesApp)
+            modules(listOf(appModule, viewModelModule))
+        }
+    }
+}
